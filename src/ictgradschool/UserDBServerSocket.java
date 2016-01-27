@@ -19,9 +19,9 @@ public class UserDBServerSocket {
 	private UserDAO userDAO = null;
 	
 	
-	public UserDBServerSocket(int portNum, UserDAO userDAO) {
+	public UserDBServerSocket(int portNum, UserDAO userDataAccessObject) {
 		port = portNum;
-		this.userDAO = userDAO;
+		this.userDAO = userDataAccessObject;
 		
 		System.out.println("ServerSocket about to start listening at port " + port + "...");
 		
