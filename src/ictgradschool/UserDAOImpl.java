@@ -29,44 +29,67 @@ public class UserDAOImpl implements UserDAO {
 			connection = null;
 		}
 	}
+	
+	// Only SQL method used is getUser(String username).
+	// UNTESTED: getAllUsers, addUser, deleteUser, updateUser.
 
 	@Override
 	public List<User> getAllUsers() throws Exception {
-		String sqlStmt = "SELECT * FROM "+usersTable;		
+		String sqlStmt = new StringBuffer().append("SELECT * FROM ").append(usersTable).toString();
 		return doQuery(sqlStmt);
 	}
 
 	@Override
 	public void addUser(User user) throws Exception {
-		String sqlStmt = "INSERT INTO "+usersTable+" (username, firstname, lastname, email) VALUES ("
-				+ user.getUsername() + "," 
-				+ user.getFirstname() + "," 
-				+ user.getLastname() + "," 
+		StringBuffer sqlStmt = new StringBuffer();
+		sqlStmt.append("INSERT INTO ").append(usersTable);
+		sqlStmt.append(" (username, firstname, lastname, email) VALUES ('");
+		sqlStmt.append(user.getUsername()).append("','"); 
+		sqlStmt.append(user.getFirstname()).append("','");
+		sqlStmt.append(user.getLastname()).append("','"); 
+		sqlStmt.append(user.getEmail());
+		sqlStmt.append("')");
+		
+		/*String sqlStmt = "INSERT INTO "+usersTable+" (username, firstname, lastname, email) VALUES ('"
+				+ user.getUsername() + "','" 
+				+ user.getFirstname() + "','" 
+				+ user.getLastname() + "','" 
 				+ user.getEmail()
-				+ ")";
-		doUpdate(sqlStmt);
+				+ "')";*/
+		doUpdate(sqlStmt.toString());
 
 	}
 
 	@Override
 	public void deleteUser(User user) throws Exception {
-		String sqlStmt = "DELETE FROM "+usersTable+" WHERE username="+user.getUsername();
-		doUpdate(sqlStmt);
+		StringBuffer sqlStmt = new StringBuffer();
+		sqlStmt.append("DELETE FROM ").append(usersTable);
+		sqlStmt.append(" WHERE username='").append(user.getUsername()).append("'");
+		doUpdate(sqlStmt.toString());
 	}
 
 	@Override
 	public void updateUser(User user) throws Exception {
-		String sqlStmt = "UPDATE "+usersTable+" SET"
-				+ " firstname=" + user.getFirstname()
-				+ " lastname=" + user.getLastname()
-				+ " email=" + user.getEmail()
-				+ " WHERE username=" + user.getUsername();
-		doUpdate(sqlStmt);
+		StringBuffer sqlStmt = new StringBuffer().append("UPDATE ").append(usersTable).append(" SET");
+		sqlStmt.append(" firstname='").append(user.getFirstname());
+		sqlStmt.append("', lastname='").append(user.getLastname());
+		sqlStmt.append("', email='").append(user.getEmail());
+		sqlStmt.append("' WHERE username='").append(user.getUsername());
+		sqlStmt.append("'");
+		
+		/*String sqlStmt = "UPDATE "+usersTable+" SET"
+				+ " firstname='" + user.getFirstname()
+				+ "', lastname='" + user.getLastname()
+				+ "', email='" + user.getEmail()
+				+ "' WHERE username='" + user.getUsername()
+				+ "'";*/
+		doUpdate(sqlStmt.toString());
 	}
 
 	public User getUser(String username) throws Exception {
-		String sqlStmt = "SELECT * FROM "+usersTable+" WHERE username = '" + username + "'";
-		List<User> users = doQuery(sqlStmt);
+		StringBuffer sqlStmt = new StringBuffer();
+		sqlStmt.append("SELECT * FROM ").append(usersTable).append(" WHERE username = '").append(username).append("'");
+		List<User> users = doQuery(sqlStmt.toString());		
 		
 		if(users == null) 
 			return null;

@@ -31,21 +31,36 @@ public class User {
 	public void setEmail(String emailAddress) { email = emailAddress; }
 	
 	public String toString() {
-		return "username:\t" + username
+		StringBuffer result = new StringBuffer();
+		result.append("username:\t").append(username);
+		result.append("\nfirstname:\t").append(firstname);
+		result.append("\nlastname:\t").append(lastname);
+		result.append("\nemail:\t").append(email);
+		return result.toString();
+		
+		/*return "username:\t" + username
 				+ "\nfirstname:\t" + firstname 
 				+ "\nlastname:\t" + lastname 
-				+ "\nemai:\t" + email;		
+				+ "\nemail:\t" + email;*/		
 	}
 	
 	
 	public String toHTMLString(String tc, String te) { // tc = tablecell, te = end tablecell		
+		StringBuffer html = new StringBuffer().append("<tr>");
+		html.append(tc).append(firstname).append(te);
+		html.append(tc).append(lastname).append(te);
+		html.append(tc).append(username).append(te);
+		html.append(tc).append(email).append(te);
+		html.append("</tr>");
 		
-		return "<tr>"
+		return html.toString();
+		
+		/*return "<tr>"
 			+ tc + firstname + te
 			+ tc + lastname + te
 			+ tc + username + te
 			+ tc + email + te 
-			+ "</tr>";
+			+ "</tr>";*/
 	}
 	
 }
